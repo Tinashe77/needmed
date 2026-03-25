@@ -4,7 +4,10 @@ build
 .env
 .env.local
 server/.env
+.claude/
 .DS_Store
 coverage
 uploads/*
 !uploads/.gitkeep
+server/server/uploads/*
+server/server/uploads/**/*
