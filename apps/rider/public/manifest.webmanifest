@@ -1,0 +1,24 @@
+{
+  "name": "NeedMed Rider",
+  "short_name": "NeedMed Rider",
+  "description": "Mobile-first rider delivery workspace for NeedMed dispatch and proof-of-delivery flows.",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#0a1f2e",
+  "theme_color": "#0d9488",
+  "orientation": "portrait",
+  "icons": [
+    {
+      "src": "/icons/icon-192.svg",
+      "sizes": "192x192",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "/icons/icon-512.svg",
+      "sizes": "512x512",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ]
+}

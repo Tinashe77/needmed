@@ -1,0 +1,507 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>NeedMed User Guide</title>
+    <style>
+      :root {
+        color-scheme: light;
+        --ink: #142033;
+        --muted: #4c5d79;
+        --border: #d9e0eb;
+        --accent: #0e9488;
+        --accent-soft: #e6f7f5;
+        --panel: #f6f9fc;
+      }
+
+      * {
+        box-sizing: border-box;
+      }
+
+      body {
+        margin: 0;
+        font-family: "Avenir Next", "Segoe UI", sans-serif;
+        color: var(--ink);
+        background: white;
+        line-height: 1.55;
+      }
+
+      main {
+        width: min(980px, 100%);
+        margin: 0 auto;
+        padding: 48px 40px 72px;
+      }
+
+      h1,
+      h2,
+      h3 {
+        line-height: 1.2;
+        letter-spacing: -0.02em;
+        margin: 0;
+      }
+
+      h1 {
+        font-size: 2.4rem;
+        margin-bottom: 12px;
+      }
+
+      h2 {
+        font-size: 1.45rem;
+        margin: 36px 0 14px;
+        padding-bottom: 8px;
+        border-bottom: 2px solid var(--border);
+      }
+
+      h3 {
+        font-size: 1.05rem;
+        margin: 22px 0 10px;
+      }
+
+      p {
+        margin: 10px 0;
+      }
+
+      ul,
+      ol {
+        margin: 10px 0 16px 22px;
+      }
+
+      li {
+        margin: 6px 0;
+      }
+
+      .hero {
+        padding: 30px 32px;
+        border-radius: 24px;
+        background: linear-gradient(135deg, #0d1a2f, #163956);
+        color: white;
+        margin-bottom: 26px;
+      }
+
+      .hero p {
+        color: rgba(255, 255, 255, 0.86);
+      }
+
+      .meta-grid,
+      .roles-grid,
+      .flow-grid {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 16px;
+      }
+
+      .roles-grid,
+      .flow-grid {
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+      }
+
+      .panel {
+        padding: 18px 18px 16px;
+        border: 1px solid var(--border);
+        border-radius: 18px;
+        background: var(--panel);
+      }
+
+      .panel h3 {
+        margin-top: 0;
+      }
+
+      .tag {
+        display: inline-block;
+        margin-bottom: 10px;
+        padding: 6px 10px;
+        border-radius: 999px;
+        background: var(--accent-soft);
+        color: var(--accent);
+        font-size: 0.78rem;
+        font-weight: 700;
+        letter-spacing: 0.06em;
+        text-transform: uppercase;
+      }
+
+      table {
+        width: 100%;
+        border-collapse: collapse;
+        margin: 14px 0 20px;
+        font-size: 0.95rem;
+      }
+
+      th,
+      td {
+        padding: 12px 10px;
+        border: 1px solid var(--border);
+        vertical-align: top;
+        text-align: left;
+      }
+
+      th {
+        background: #eef4fa;
+      }
+
+      .steps {
+        counter-reset: item;
+        list-style: none;
+        margin-left: 0;
+        padding-left: 0;
+      }
+
+      .steps li {
+        counter-increment: item;
+        margin: 0 0 12px;
+        padding: 14px 16px 14px 52px;
+        border: 1px solid var(--border);
+        border-radius: 16px;
+        background: white;
+        position: relative;
+      }
+
+      .steps li::before {
+        content: counter(item);
+        position: absolute;
+        left: 14px;
+        top: 14px;
+        width: 26px;
+        height: 26px;
+        border-radius: 999px;
+        background: var(--accent);
+        color: white;
+        font-weight: 700;
+        display: grid;
+        place-items: center;
+      }
+
+      .small {
+        color: var(--muted);
+        font-size: 0.92rem;
+      }
+
+      .footer-note {
+        margin-top: 36px;
+        padding: 16px 18px;
+        border-left: 4px solid var(--accent);
+        background: var(--accent-soft);
+      }
+
+      @media print {
+        main {
+          padding: 24px;
+        }
+
+        .hero,
+        .panel,
+        .steps li {
+          break-inside: avoid;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <main>
+      <section class="hero">
+        <h1>NeedMed User Guide</h1>
+        <p>
+          End-to-end operational guide for the NeedMed pharmacy platform, covering the admin dashboard, customer
+          storefront, rider PWA, and the shared backend workflows that connect them.
+        </p>
+        <p class="small">Prepared for current system state as of March 24, 2026.</p>
+      </section>
+
+      <section class="meta-grid">
+        <article class="panel">
+          <div class="tag">What NeedMed Is</div>
+          <p>
+            NeedMed is an omni-channel pharmacy operations platform. It allows customers to browse and order medication,
+            pharmacy teams to manage products and operations, and riders to handle delivery dispatch and completion from
+            a dedicated mobile-first PWA.
+          </p>
+        </article>
+        <article class="panel">
+          <div class="tag">Core Applications</div>
+          <p>
+            The system is split into three frontends connected to one backend: the customer web app, the admin
+            dashboard, and the rider PWA. All records are stored centrally and linked through shared pharmacy,
+            branch, order, and delivery data.
+          </p>
+        </article>
+      </section>
+
+      <h2>1. Platform Overview</h2>
+      <div class="roles-grid">
+        <article class="panel">
+          <h3>Customer App</h3>
+          <p>Customers register, browse products, upload prescriptions, place orders, and follow order progress.</p>
+        </article>
+        <article class="panel">
+          <h3>Admin Dashboard</h3>
+          <p>Admins manage users, pharmacies, branches, products, prescriptions, orders, payments, deliveries, and riders.</p>
+        </article>
+        <article class="panel">
+          <h3>Rider PWA</h3>
+          <p>Riders receive delivery requests, manage active routes, confirm collection, navigate, and complete deliveries.</p>
+        </article>
+      </div>
+
+      <h2>2. User Roles and What They Can Do</h2>
+      <table>
+        <thead>
+          <tr>
+            <th>Role</th>
+            <th>Main Responsibilities</th>
+            <th>Typical App Used</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Customer</td>
+            <td>Create account, browse medication, submit prescriptions, place orders, pay, and track progress.</td>
+            <td>Customer web app</td>
+          </tr>
+          <tr>
+            <td>Admin</td>
+            <td>Manage system setup, create internal users, approve riders, oversee operations and delivery flow.</td>
+            <td>Admin dashboard</td>
+          </tr>
+          <tr>
+            <td>Pharmacist / Staff</td>
+            <td>Review prescriptions, manage catalog and stock, approve operational items, support order processing.</td>
+            <td>Admin dashboard</td>
+          </tr>
+          <tr>
+            <td>Rider</td>
+            <td>Accept assigned deliveries, update live delivery status, collect COD, and complete deliveries with proof.</td>
+            <td>Rider PWA</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <h2>3. Main Modules Already Working</h2>
+      <table>
+        <thead>
+          <tr>
+            <th>Module</th>
+            <th>What It Handles</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Authentication and User Management</td>
+            <td>Customer self-signup, admin/internal user creation, rider registration and approval.</td>
+          </tr>
+          <tr>
+            <td>Pharmacy and Branch Management</td>
+            <td>Multi-branch setup and branch assignment for records and operations.</td>
+          </tr>
+          <tr>
+            <td>Products and Inventory</td>
+            <td>Product catalog creation, branch inventory, stock visibility, and stock status.</td>
+          </tr>
+          <tr>
+            <td>Prescription Management</td>
+            <td>Prescription upload, pharmacist review, approval, rejection, and follow-up statuses.</td>
+          </tr>
+          <tr>
+            <td>Order Management</td>
+            <td>Checkout, order creation, totals, status changes, and order oversight.</td>
+          </tr>
+          <tr>
+            <td>Payments</td>
+            <td>Cash on delivery and mock online payment workflow with payment status syncing.</td>
+          </tr>
+          <tr>
+            <td>Deliveries and Dispatch</td>
+            <td>Delivery creation, rider assignment, dispatch status, rider acceptance, and completion.</td>
+          </tr>
+          <tr>
+            <td>Rider PWA</td>
+            <td>Mobile-first rider app with live request feed, route map, proof of delivery, and realtime updates.</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <h2>4. End-to-End Customer Order Flow</h2>
+      <ol class="steps">
+        <li>
+          A customer creates an account from the customer web app, or signs in if they already have one.
+        </li>
+        <li>
+          The customer browses products. If a product is prescription-only, the customer is prompted into the prescription workflow.
+        </li>
+        <li>
+          The customer adds products to the cart and proceeds to checkout.
+        </li>
+        <li>
+          Checkout captures customer details, delivery address, selected payment method, and order items.
+        </li>
+        <li>
+          The backend creates the order, calculates totals, links the pharmacy and branch, and records payment state.
+        </li>
+        <li>
+          Admin or pharmacy staff can review the order from the dashboard and move it through operational statuses.
+        </li>
+      </ol>
+
+      <h2>5. Prescription Flow</h2>
+      <ol class="steps">
+        <li>
+          The customer uploads a prescription from the customer application.
+        </li>
+        <li>
+          The prescription file is stored on the server and linked to the submitting user.
+        </li>
+        <li>
+          Admin or pharmacist users view submitted prescriptions from the admin dashboard.
+        </li>
+        <li>
+          The prescription is reviewed and updated to one of the supported states: pending, approved, rejected, or requires follow-up.
+        </li>
+        <li>
+          Approved prescriptions support downstream order processing for prescription-only products.
+        </li>
+      </ol>
+
+      <h2>6. Payment Flow</h2>
+      <div class="flow-grid">
+        <article class="panel">
+          <h3>Cash on Delivery</h3>
+          <p>The order is created with COD selected. Payment remains pending until the rider collects cash and confirms collection.</p>
+        </article>
+        <article class="panel">
+          <h3>Mock Online Payment</h3>
+          <p>The system initializes a payment record, simulates payment completion, and updates payment status on the order.</p>
+        </article>
+        <article class="panel">
+          <h3>Payment Visibility</h3>
+          <p>Admins can review payment records and statuses from the admin dashboard.</p>
+        </article>
+      </div>
+
+      <h2>7. Delivery and Rider Dispatch Flow</h2>
+      <ol class="steps">
+        <li>
+          Once an order reaches the delivery stage, admin creates or manages the delivery record from the admin dashboard.
+        </li>
+        <li>
+          A rider is selected. The system automatically updates the delivery status to <strong>Assigned</strong>.
+        </li>
+        <li>
+          The assigned rider receives the delivery in the rider PWA.
+        </li>
+        <li>
+          The rider accepts the delivery, arrives at the pharmacy, collects the order, and moves the delivery into transit.
+        </li>
+        <li>
+          The rider sees the active route inside the PWA using Leaflet with the rider marker, destination marker, and route line.
+        </li>
+        <li>
+          The rider completes delivery using OTP proof or photo proof. If COD applies, COD must also be collected before completion.
+        </li>
+        <li>
+          Delivery completion updates the delivery history and synchronizes the order status.
+        </li>
+      </ol>
+
+      <h2>8. Real-Time Behavior</h2>
+      <table>
+        <thead>
+          <tr>
+            <th>Realtime Event</th>
+            <th>What Happens</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>New delivery request</td>
+            <td>The rider PWA receives the request immediately when the rider is online.</td>
+          </tr>
+          <tr>
+            <td>Rider status change</td>
+            <td>Online or offline availability is stored and broadcast to the system.</td>
+          </tr>
+          <tr>
+            <td>Rider location update</td>
+            <td>The rider device streams location, and admin can see tracking information in delivery management.</td>
+          </tr>
+          <tr>
+            <td>Delivery status update</td>
+            <td>When the rider changes delivery status, the admin dashboard updates in real time.</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <h2>9. Admin Dashboard Guide</h2>
+      <ol class="steps">
+        <li>
+          Sign in as admin using the admin dashboard.
+        </li>
+        <li>
+          Use the left navigation to move through modules such as Customers, Internal Users, Riders, Pharmacies, Products, Prescriptions, Orders, Payments, and Deliveries.
+        </li>
+        <li>
+          All list modules use named tables. The final column contains actions such as view, edit, approve, delete, or manage.
+        </li>
+        <li>
+          Create and edit operations use popup forms to keep the dashboard clean and operationally focused.
+        </li>
+        <li>
+          Status-based modules use color-coded status badges to make operational states easy to recognize.
+        </li>
+      </ol>
+
+      <h2>10. Rider PWA Guide</h2>
+      <ol class="steps">
+        <li>
+          Riders register from the rider PWA and wait for admin approval.
+        </li>
+        <li>
+          Approved riders log in and can toggle online or offline status.
+        </li>
+        <li>
+          When online, they receive dispatch requests and assigned deliveries.
+        </li>
+        <li>
+          The rider uses the mobile app style interface to manage current tasks, open the route tab, call or text the customer, and update statuses.
+        </li>
+        <li>
+          The PWA keeps delivery history and shows proof metadata for completed jobs.
+        </li>
+      </ol>
+
+      <h2>11. Data and Operational Notes</h2>
+      <ul>
+        <li>Seed data is currently allowed for initial setup and development, but it can be cleared later.</li>
+        <li>The product and platform name used in the system is <strong>NeedMed</strong>.</li>
+        <li>Multi-branch support is already part of the structure through pharmacies and branches.</li>
+        <li>Proof of delivery can be OTP-based or photo-based.</li>
+        <li>COD completion is enforced before COD deliveries can be marked delivered.</li>
+      </ul>
+
+      <h2>12. Typical Daily Operational Scenario</h2>
+      <ol class="steps">
+        <li>
+          Admin signs in and confirms rider availability, inventory readiness, and pending prescriptions.
+        </li>
+        <li>
+          Customers place orders and upload prescriptions where needed.
+        </li>
+        <li>
+          Pharmacy staff review prescriptions and process approved orders.
+        </li>
+        <li>
+          Admin dispatches deliveries to available riders.
+        </li>
+        <li>
+          Riders execute deliveries from the PWA and update progress live.
+        </li>
+        <li>
+          Completed deliveries and payments appear in history and admin reporting views for follow-up.
+        </li>
+      </ol>
+
+      <div class="footer-note">
+        This guide reflects the system modules currently implemented in the project workspace. Future modules such as
+        consultation intake and deeper reporting can be added to a later revision of this guide.
+      </div>
+    </main>
+  </body>
+</html>

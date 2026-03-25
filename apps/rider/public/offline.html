@@ -1,0 +1,58 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>NeedMed Rider Offline</title>
+    <style>
+      body {
+        margin: 0;
+        min-height: 100vh;
+        display: grid;
+        place-items: center;
+        padding: 24px;
+        font-family: "Segoe UI", system-ui, sans-serif;
+        color: #e8f4f2;
+        background:
+          radial-gradient(ellipse at 20% 20%, rgba(14, 116, 144, 0.22) 0%, transparent 55%),
+          radial-gradient(ellipse at 80% 80%, rgba(13, 148, 136, 0.2) 0%, transparent 55%),
+          linear-gradient(160deg, #0a1f2e 0%, #0d2d3f 45%, #0e1f35 100%);
+      }
+
+      section {
+        width: min(520px, 100%);
+        padding: 36px 32px;
+        background: rgba(255, 255, 255, 0.08);
+        backdrop-filter: blur(24px);
+        border: 1px solid rgba(255, 255, 255, 0.14);
+        border-radius: 24px;
+      }
+
+      p:first-child {
+        margin: 0 0 10px;
+        text-transform: uppercase;
+        letter-spacing: 0.18em;
+        font-size: 0.72rem;
+        color: rgba(94, 234, 212, 0.76);
+      }
+
+      h1 {
+        margin: 0 0 12px;
+        font-size: 1.8rem;
+      }
+
+      p:last-child {
+        margin: 0;
+        color: rgba(232, 244, 242, 0.75);
+        line-height: 1.6;
+      }
+    </style>
+  </head>
+  <body>
+    <section>
+      <p>NeedMed Rider</p>
+      <h1>Offline fallback</h1>
+      <p>The rider app shell is cached, but live dispatch actions need a connection. Reconnect to continue receiving and updating deliveries.</p>
+    </section>
+  </body>
+  </html>

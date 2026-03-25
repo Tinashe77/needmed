@@ -1,0 +1,387 @@
+/* ── Reset & Root ─────────────────────────────────────────── */
+*, *::before, *::after {
+  box-sizing: border-box;
+}
+
+:root {
+  font-family: "Segoe UI", system-ui, -apple-system, sans-serif;
+  color: #0f2318;
+
+  --green-dark:    #0d3d2e;
+  --green-mid:     #1a6b52;
+  --green-accent:  #22c55e;
+  --glass-white:   rgba(255, 255, 255, 0.75);
+  --glass-border:  rgba(255, 255, 255, 0.8);
+  --shadow-panel:  0 20px 60px rgba(13, 61, 46, 0.1), 0 1px 3px rgba(13, 61, 46, 0.06);
+}
+
+body {
+  margin: 0;
+  background:
+    radial-gradient(ellipse at 10% 10%, rgba(34, 197, 94, 0.12) 0%, transparent 55%),
+    radial-gradient(ellipse at 85% 85%, rgba(16, 185, 129, 0.1) 0%, transparent 55%),
+    radial-gradient(ellipse at 50% 0%, rgba(134, 239, 172, 0.08) 0%, transparent 60%),
+    linear-gradient(160deg, #f0fdf4 0%, #ecfdf5 40%, #f0f9f4 70%, #f5faf2 100%);
+  min-height: 100vh;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+/* ── Shell ────────────────────────────────────────────────── */
+.shell {
+  min-height: 100vh;
+  padding: 32px;
+  max-width: 1100px;
+  margin: 0 auto;
+}
+
+/* ── Hero / Header ── */
+.hero {
+  display: grid;
+  gap: 14px;
+  max-width: 760px;
+}
+
+.eyebrow {
+  margin: 0;
+  font-size: 0.72rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.22em;
+  color: var(--green-mid);
+  opacity: 0.7;
+}
+
+.hero h1 {
+  margin: 0;
+  font-size: clamp(1.6rem, 3.5vw, 2.4rem);
+  font-weight: 800;
+  letter-spacing: -0.03em;
+  line-height: 1.2;
+  background: linear-gradient(135deg, #0d3d2e 0%, #16a34a 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+/* ── Glassmorphic Nav ── */
+.hero nav,
+.hero-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.hero nav {
+  background: rgba(255, 255, 255, 0.6);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid rgba(255, 255, 255, 0.85);
+  border-radius: 999px;
+  padding: 6px 10px;
+  width: fit-content;
+  box-shadow: 0 4px 16px rgba(13, 61, 46, 0.07);
+}
+
+.hero nav a {
+  padding: 7px 16px;
+  border-radius: 999px;
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: #1a5e3a;
+  transition: background 0.15s, color 0.15s;
+}
+
+.hero nav a:hover {
+  background: rgba(34, 197, 94, 0.12);
+  color: #0d3d2e;
+}
+
+/* ── CTA Row ── */
+.cta-row,
+.hero-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+
+/* ── Buttons / Links ── */
+.primary-link,
+.secondary-link,
+.tab-row button,
+.stack button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border: 0;
+  border-radius: 999px;
+  padding: 12px 22px;
+  cursor: pointer;
+  font: inherit;
+  font-weight: 600;
+  font-size: 0.9rem;
+  transition: opacity 0.2s, transform 0.15s, box-shadow 0.2s;
+}
+
+.primary-link,
+.tab-row button.active,
+.stack button {
+  background: linear-gradient(135deg, #0d3d2e, #16a34a);
+  color: white;
+  box-shadow: 0 4px 16px rgba(13, 61, 46, 0.35);
+}
+
+.primary-link:hover,
+.tab-row button.active:hover,
+.stack button:hover {
+  opacity: 0.88;
+  transform: translateY(-1px);
+  box-shadow: 0 6px 20px rgba(13, 61, 46, 0.4);
+}
+
+.secondary-link,
+.tab-row button:not(.active) {
+  background: rgba(255, 255, 255, 0.7);
+  backdrop-filter: blur(8px);
+  color: #0d3d2e;
+  border: 1px solid rgba(255, 255, 255, 0.85);
+  box-shadow: 0 2px 8px rgba(13, 61, 46, 0.08);
+}
+
+.secondary-link:hover,
+.tab-row button:not(.active):hover {
+  background: rgba(255, 255, 255, 0.9);
+}
+
+/* ── Panel (glass card) ── */
+.panel {
+  margin-top: 28px;
+  background: var(--glass-white);
+  backdrop-filter: blur(24px);
+  -webkit-backdrop-filter: blur(24px);
+  border: 1px solid var(--glass-border);
+  border-radius: 24px;
+  padding: 28px;
+  max-width: 720px;
+  box-shadow: var(--shadow-panel);
+}
+
+.panel h2 {
+  margin: 0 0 10px;
+  font-size: 1.15rem;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+}
+
+.panel > p {
+  margin: 0 0 8px;
+  color: #4a7a5e;
+  font-size: 0.9rem;
+  line-height: 1.6;
+}
+
+/* ── Form Panel ── */
+.form-panel {
+  display: grid;
+  gap: 16px;
+}
+
+/* ── Tab Row ── */
+.tab-row {
+  display: flex;
+  gap: 8px;
+  background: rgba(0, 0, 0, 0.04);
+  border-radius: 14px;
+  padding: 5px;
+}
+
+.tab-row button {
+  flex: 1;
+  border-radius: 10px;
+  padding: 10px 16px;
+}
+
+.tab-row button.active {
+  box-shadow: 0 2px 8px rgba(13, 61, 46, 0.25);
+}
+
+/* ── Stack (form inputs) ── */
+.stack {
+  display: grid;
+  gap: 10px;
+}
+
+.stack input {
+  border: 1px solid rgba(203, 225, 212, 0.9);
+  border-radius: 14px;
+  padding: 13px 16px;
+  font: inherit;
+  font-size: 0.9rem;
+  background: rgba(255, 255, 255, 0.7);
+  color: #0f2318;
+  outline: none;
+  transition: border-color 0.2s, background 0.2s;
+}
+
+.stack textarea,
+.stack select {
+  border: 1px solid rgba(203, 225, 212, 0.9);
+  border-radius: 14px;
+  padding: 13px 16px;
+  font: inherit;
+  font-size: 0.9rem;
+  background: rgba(255, 255, 255, 0.7);
+  color: #0f2318;
+  outline: none;
+}
+
+.stack textarea {
+  min-height: 120px;
+  resize: vertical;
+}
+
+.stack input::placeholder {
+  color: #94b8a3;
+}
+
+.stack input:focus {
+  border-color: rgba(22, 163, 74, 0.4);
+  background: rgba(255, 255, 255, 0.9);
+}
+
+/* ── Helper / Feedback ── */
+.helper-copy,
+.feedback {
+  margin: 0;
+  font-size: 0.875rem;
+  line-height: 1.5;
+}
+
+.helper-copy {
+  color: #4a7a5e;
+}
+
+.error {
+  color: #dc2626;
+}
+
+.success-text {
+  color: #16a34a;
+}
+
+/* ── Result Card ── */
+.result-card {
+  border-top: 1px solid rgba(203, 225, 212, 0.6);
+  padding-top: 16px;
+  margin-top: 4px;
+}
+
+.result-card h3 {
+  margin: 0 0 8px;
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: #16a34a;
+}
+
+.result-card p {
+  margin: 4px 0;
+  font-size: 0.875rem;
+  color: #2d6b48;
+}
+
+.catalog-grid,
+.cart-list {
+  display: grid;
+  gap: 14px;
+  margin-top: 18px;
+}
+
+.catalog-card,
+.cart-row,
+.checkout-box,
+.purchase-box {
+  background: rgba(255, 255, 255, 0.72);
+  border: 1px solid rgba(203, 225, 212, 0.6);
+  border-radius: 18px;
+  padding: 18px;
+}
+
+.catalog-card h2,
+.cart-row h2,
+.checkout-box h2 {
+  margin: 0 0 8px;
+  font-size: 1rem;
+}
+
+.card-actions,
+.cart-actions,
+.cart-summary,
+.detail-stack {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+
+.detail-stack {
+  align-items: start;
+  justify-content: space-between;
+}
+
+.purchase-box {
+  display: grid;
+  gap: 12px;
+  min-width: 240px;
+}
+
+.cart-row,
+.cart-summary {
+  justify-content: space-between;
+  align-items: center;
+}
+
+.cart-summary {
+  margin-top: 18px;
+}
+
+.qty-input,
+.stack select {
+  border: 1px solid rgba(203, 225, 212, 0.9);
+  border-radius: 14px;
+  padding: 13px 16px;
+  font: inherit;
+  font-size: 0.9rem;
+  background: rgba(255, 255, 255, 0.7);
+  color: #0f2318;
+  outline: none;
+}
+
+.qty-input {
+  width: 90px;
+}
+
+.mini-button {
+  border: 0;
+  border-radius: 999px;
+  padding: 10px 16px;
+  background: linear-gradient(135deg, #0d3d2e, #16a34a);
+  color: white;
+  cursor: pointer;
+  font: inherit;
+  font-weight: 600;
+}
+
+@media (max-width: 720px) {
+  .detail-stack,
+  .cart-row,
+  .cart-summary {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .purchase-box {
+    min-width: 0;
+  }
+}

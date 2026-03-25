@@ -1,0 +1,277 @@
+NEEDMED USER GUIDE
+End-to-end operational guide for the NeedMed platform
+Prepared for current system state as of March 24, 2026
+
+======================================================================
+1. PLATFORM OVERVIEW
+======================================================================
+
+NeedMed is an omni-channel pharmacy operations platform.
+
+It is made up of three connected applications:
+
+1. Customer web application
+   Customers create accounts, browse products, upload prescriptions,
+   place orders, and track progress.
+
+2. Admin dashboard
+   Admins and pharmacy teams manage users, pharmacies, branches,
+   products, prescriptions, orders, payments, deliveries, and riders.
+
+3. Rider PWA
+   Riders use a separate mobile-first progressive web app to receive
+   delivery requests, manage live routes, and complete deliveries.
+
+
+======================================================================
+2. USER ROLES
+======================================================================
+
+Customer
+- Creates account
+- Browses products
+- Uploads prescriptions
+- Places orders
+- Makes payment selections
+- Tracks orders
+
+Admin
+- Creates and manages internal users
+- Approves riders
+- Manages pharmacies and branches
+- Oversees products, prescriptions, orders, payments, and deliveries
+
+Pharmacist / Pharmacy Staff
+- Reviews prescriptions
+- Manages products and inventory
+- Supports order processing and operational review
+
+Rider
+- Registers through the rider PWA
+- Waits for admin approval
+- Goes online to receive delivery requests
+- Accepts, updates, and completes deliveries
+
+
+======================================================================
+3. MAIN SYSTEM MODULES
+======================================================================
+
+1. Authentication and User Management
+   Handles customer self-registration, admin/internal user creation,
+   rider registration, rider approval, and protected access.
+
+2. Pharmacy and Branch Management
+   Handles pharmacy setup, branch creation, branch assignment, and
+   branch-aware operations.
+
+3. Products and Inventory
+   Handles product catalog creation, branch-level inventory, and stock
+   visibility.
+
+4. Prescription Management
+   Handles prescription upload, storage, review, approval, rejection,
+   and follow-up status.
+
+5. Order Management
+   Handles checkout, order creation, totals, and status updates.
+
+6. Payments
+   Handles cash on delivery and mock online payment workflow.
+
+7. Deliveries and Dispatch
+   Handles delivery creation, rider assignment, rider acceptance,
+   status updates, proof of delivery, and completion.
+
+8. Rider PWA
+   Handles rider login, availability, live request feed, route map,
+   history, and delivery actions.
+
+
+======================================================================
+4. END-TO-END CUSTOMER ORDER FLOW
+======================================================================
+
+1. A customer creates an account or signs in.
+2. The customer browses products in the customer app.
+3. If a product is prescription-only, the customer is guided into the
+   prescription flow.
+4. The customer adds products to the cart and proceeds to checkout.
+5. Checkout captures delivery information, address, and payment method.
+6. The backend creates the order, calculates totals, and links the
+   order to the correct pharmacy and branch.
+7. Admin or pharmacy staff review and progress the order from the admin
+   dashboard.
+
+
+======================================================================
+5. PRESCRIPTION FLOW
+======================================================================
+
+1. The customer uploads a prescription from the customer app.
+2. The file is stored on the server and linked to the customer.
+3. Admin or pharmacist users review it from the admin dashboard.
+4. The prescription is updated to one of these statuses:
+   - pending
+   - approved
+   - rejected
+   - requires follow_up
+5. Approved prescriptions support downstream order processing for
+   prescription-only items.
+
+
+======================================================================
+6. PAYMENT FLOW
+======================================================================
+
+Cash on Delivery
+- The order is created with COD selected.
+- Payment remains pending until the rider collects cash.
+- COD collection must be confirmed before a COD delivery can be marked
+  delivered.
+
+Mock Online Payment
+- The system creates a payment record.
+- The system simulates online payment completion.
+- Payment status is synchronized with the order.
+
+Admin Visibility
+- Admin users can view payment records and statuses in the dashboard.
+
+
+======================================================================
+7. DELIVERY AND RIDER DISPATCH FLOW
+======================================================================
+
+1. Admin creates or manages the delivery from the admin dashboard.
+2. Admin assigns a rider to the delivery.
+3. The system automatically changes the delivery status to ASSIGNED.
+4. The rider receives the assignment in the rider PWA.
+5. The rider accepts the delivery.
+6. The rider arrives at the pharmacy.
+7. The rider confirms that the order has been collected.
+8. The rider marks the delivery IN_TRANSIT.
+9. The rider sees the route inside the PWA using the embedded Leaflet
+   map.
+10. The rider completes delivery using:
+    - OTP proof, or
+    - photo proof
+11. If COD applies, COD must be collected before completion.
+12. Delivery completion updates delivery history and synchronizes the
+    order status.
+
+
+======================================================================
+8. REALTIME SYSTEM BEHAVIOR
+======================================================================
+
+The system uses realtime socket updates for the following:
+
+- New delivery request notifications to online riders
+- Rider availability updates
+- Rider location updates
+- Delivery status updates from rider to admin dashboard
+- Immediate admin visibility when riders progress deliveries
+
+
+======================================================================
+9. ADMIN DASHBOARD GUIDE
+======================================================================
+
+How it works:
+
+1. Admin signs in through the admin dashboard.
+2. The left navigation gives access to operational modules such as:
+   - Customers
+   - Internal Users
+   - Riders
+   - Pharmacies and Branches
+   - Products and Inventory
+   - Prescriptions
+   - Orders
+   - Payments
+   - Deliveries
+3. Listing modules are shown in named tables.
+4. CRUD and management actions are placed in the last table column.
+5. Create and edit actions use popup forms.
+6. Statuses are shown with color-coded indicators.
+
+
+======================================================================
+10. RIDER PWA GUIDE
+======================================================================
+
+1. Rider registers in the rider PWA.
+2. Rider waits for admin approval.
+3. Approved rider signs in.
+4. Rider can go online or offline.
+5. When online, the rider receives requests and assigned deliveries.
+6. The rider can:
+   - accept or reject requests
+   - update delivery progress
+   - call or text the customer
+   - view the route in-app
+   - submit OTP or photo proof
+   - confirm COD collection
+7. Completed deliveries appear in rider history.
+
+
+======================================================================
+11. LEAFLET MAP IN THE RIDER PWA
+======================================================================
+
+The rider PWA now uses Leaflet for the in-app route view.
+
+Current behavior:
+- shows the rider's live location when permission is granted
+- geocodes the delivery address
+- shows the drop-off marker
+- draws the route line in the PWA
+- keeps external map links only as fallback
+
+Operational note:
+- this is suitable for development and internal testing
+- for higher production volume, a dedicated routing/geocoding service
+  should be used
+
+
+======================================================================
+12. DATA AND OPERATIONS NOTES
+======================================================================
+
+- Seed data is currently allowed for setup and development.
+- The platform name is NeedMed.
+- Interpath naming should not be used in the project.
+- The system supports pharmacy and branch structure.
+- Proof of delivery can be OTP-based or photo-based.
+- COD deliveries enforce collection before completion.
+
+
+======================================================================
+13. TYPICAL DAILY OPERATIONAL SCENARIO
+======================================================================
+
+1. Admin signs in and checks riders, inventory, and prescriptions.
+2. Customers place orders and upload prescriptions where needed.
+3. Pharmacy staff review and approve prescription-related items.
+4. Admin prepares and dispatches deliveries.
+5. Riders receive work in the rider PWA and progress deliveries live.
+6. Orders, deliveries, payments, and histories stay synchronized.
+
+
+======================================================================
+14. SUMMARY
+======================================================================
+
+NeedMed currently functions as a connected pharmacy operations platform
+with customer ordering, admin operations, and rider delivery execution.
+
+The implemented system already supports:
+- account creation and user management
+- pharmacy and branch setup
+- products and inventory
+- prescription handling
+- orders and payments
+- delivery dispatch and realtime rider operations
+- a separate rider PWA with in-app route mapping
+

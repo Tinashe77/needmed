@@ -1,0 +1,20 @@
+{
+  "name": "needmed-platform",
+  "private": true,
+  "version": "0.1.0",
+  "workspaces": [
+    "server",
+    "apps/customer",
+    "apps/admin",
+    "apps/rider"
+  ],
+  "scripts": {
+    "dev:server": "npm run dev --workspace server",
+    "dev:customer": "npm run dev --workspace @needmed/customer",
+    "dev:admin": "npm run dev --workspace @needmed/admin",
+    "dev:rider": "npm run dev --workspace @needmed/rider",
+    "build": "npm run build --workspaces",
+    "lint": "npm run lint --workspaces --if-present"
+  }
+}
+
