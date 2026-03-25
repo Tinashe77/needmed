@@ -1,6 +1,8 @@
 import React from "react";
 import { LiveRouteMap } from "../components/LiveRouteMap.jsx";
 
+const API_BASE_URL = import.meta.env.VITE_API_BASE_URL ?? "https://needmed.onrender.com";
+
 const statusLabel = (status) =>
   String(status)
     .toLowerCase()
@@ -572,11 +574,11 @@ export const DashboardPage = ({
 
                       <div className="history-proof-row">
                         <span>Proof: {delivery.proof?.method ? statusLabel(delivery.proof.method) : "None"}</span>
-                        {delivery.proof?.photoUrl ? (
-                          <a href={`http://127.0.0.1:5001${delivery.proof.photoUrl}`} target="_blank" rel="noreferrer">
-                            View photo
-                          </a>
-                        ) : null}
+                          {delivery.proof?.photoUrl ? (
+                            <a href={`${API_BASE_URL}${delivery.proof.photoUrl}`} target="_blank" rel="noreferrer">
+                              View photo
+                            </a>
+                          ) : null}
                       </div>
                     </article>
                   ))}

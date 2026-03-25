@@ -4,7 +4,8 @@ import ReactDOM from "react-dom/client";
 import "./styles.css";
 import { connectAdminSocket } from "./services/socket.js";
 
-const API_URL = "http://127.0.0.1:5001/api";
+const API_BASE_URL = import.meta.env.VITE_API_BASE_URL ?? "https://needmed.onrender.com";
+const API_URL = `${API_BASE_URL}/api`;
 const USER_SECTIONS = ["customers", "internal", "riders"];
 const SECTIONS = ["overview", ...USER_SECTIONS, "pharmacies", "products", "prescriptions", "consultations", "orders", "payments", "deliveries"];
 
@@ -1650,7 +1651,7 @@ const App = () => {
                             <StatusBadge value={prescription.reviewStatus} />
                           </td>
                           <td>
-                            <a href={`http://127.0.0.1:5001${prescription.fileUrl}`} target="_blank" rel="noreferrer">
+                            <a href={`${API_BASE_URL}${prescription.fileUrl}`} target="_blank" rel="noreferrer">
                               View file
                             </a>
                           </td>
@@ -1908,7 +1909,7 @@ const App = () => {
                               <span>OTP: {delivery.deliveryOtp || "N/A"}</span>
                               <span>Proof: {delivery.proof?.method ? humanize(delivery.proof.method) : "Pending"}</span>
                               {delivery.proof?.photoUrl ? (
-                                <a href={`http://127.0.0.1:5001${delivery.proof.photoUrl}`} target="_blank" rel="noreferrer">
+                                <a href={`${API_BASE_URL}${delivery.proof.photoUrl}`} target="_blank" rel="noreferrer">
                                   View photo
                                 </a>
                               ) : null}

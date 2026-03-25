@@ -4,7 +4,7 @@ import { BrowserRouter, Link, Route, Routes, useParams } from "react-router-dom"
 
 import "./styles.css";
 
-const API_URL = "http://127.0.0.1:5001/api";
+const API_URL = `${import.meta.env.VITE_API_BASE_URL ?? "https://needmed.onrender.com"}/api`;
 const CART_KEY = "needmed_cart";
 const CHECKOUT_KEY = "needmed_checkout";
 
