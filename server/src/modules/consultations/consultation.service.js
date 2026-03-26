@@ -30,6 +30,8 @@ const parseMediaUrls = (payload) => {
 const createTwimlMessage = (message) =>
   `${TWIML_HEADER}<Response><Message>${escapeXml(message)}</Message></Response>`;
 
+const createEmptyTwiml = () => `${TWIML_HEADER}<Response></Response>`;
+
 const summarizeConsultation = (consultation) => {
   const lines = [
     `Name: ${consultation.customerName || "Not provided"}`,
@@ -62,6 +64,9 @@ const buildCompletionPrompt = (consultation) =>
 
 const buildInProgressPrompt = () =>
   "Your request is already in the NeedMed review queue. A pharmacist will respond here on WhatsApp if more information is needed.";
+
+const buildManualModePrompt = () =>
+  "NeedMed has received your message and pushed it to the pharmacy portal. A pharmacist will continue with you here on WhatsApp shortly.";
 
 const appendTranscript = (consultation, entry) => {
   consultation.transcript.push(entry);
@@ -221,6 +226,9 @@ export const processWhatsappWebhook = async (payload) => {
     throw new AppError("Incoming WhatsApp message did not include a sender.", 400);
   }
 
+  const intakeMode = String(env.whatsappIntakeMode ?? "guided").toLowerCase();
+  const isManualMode = intakeMode === "manual";
+
   let consultation = await Consultation.findOne({
     channel: "whatsapp",
     customerWhatsapp: from,
@@ -232,8 +240,8 @@ export const processWhatsappWebhook = async (payload) => {
       channel: "whatsapp",
       customerWhatsapp: from,
       customerPhone: from,
-      status: "intake_in_progress",
-      intakeStep: "awaiting_name",
+      status: isManualMode ? "ready_for_review" : "intake_in_progress",
+      intakeStep: isManualMode ? "completed" : "awaiting_name",
     });
   }
 
@@ -247,6 +255,55 @@ export const processWhatsappWebhook = async (payload) => {
 
   consultation.lastInboundAt = new Date();
   consultation.lastTwilioMessageSid = payload.MessageSid || consultation.lastTwilioMessageSid;
+
+  if (isManualMode) {
+    if (!consultation.requestedSummary && messageBody) {
+      consultation.requestedSummary = messageBody;
+      consultation.requestedItems = splitRequestedItems(messageBody);
+    }
+
+    if (!consultation.customerName && payload.ProfileName) {
+      consultation.customerName = String(payload.ProfileName).trim();
+    }
+
+    if (mediaUrls.length > 0) {
+      consultation.prescriptionMediaUrls = [...consultation.prescriptionMediaUrls, ...mediaUrls];
+    }
+
+    consultation.status = consultation.status === "closed" ? "closed" : "ready_for_review";
+    consultation.intakeStep = "completed";
+
+    const shouldSendAck =
+      consultation.transcript.filter((entry) => entry.direction === "inbound").length === 1 ||
+      messageBody.toLowerCase() === "restart";
+
+    if (shouldSendAck) {
+      const reply = buildManualModePrompt();
+
+      appendTranscript(consultation, {
+        direction: "outbound",
+        senderType: "system",
+        body: reply,
+        mediaUrls: [],
+        receivedAt: new Date(),
+      });
+
+      consultation.lastOutboundAt = new Date();
+      await consultation.save();
+
+      return {
+        consultation,
+        twiml: createTwimlMessage(reply),
+      };
+    }
+
+    await consultation.save();
+
+    return {
+      consultation,
+      twiml: createEmptyTwiml(),
+    };
+  }
 
   const normalizedCommand = messageBody.toLowerCase();
   let reply;

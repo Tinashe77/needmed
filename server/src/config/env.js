@@ -21,4 +21,5 @@ export const env = {
   twilioAccountSid: process.env.TWILIO_ACCOUNT_SID ?? "",
   twilioAuthToken: process.env.TWILIO_AUTH_TOKEN ?? "",
   twilioWhatsappFrom: process.env.TWILIO_WHATSAPP_FROM ?? "",
+  whatsappIntakeMode: process.env.WHATSAPP_INTAKE_MODE ?? "guided",
 };
